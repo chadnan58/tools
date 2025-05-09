@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compressor Pro - Optimize & Reduce Image Sizes Online</title>
+    <meta name="description" content="Free online image compressor supporting JPG, PNG, and WebP formats. Reduce image sizes while maintaining quality with adjustable compression levels.">
+    <meta name="keywords" content="image compressor, optimize images, reduce image size, online image converter, image optimization">
+    <meta name="author" content="Your Company Name">
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --error-color: #e74c3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .upload-section {
+            border: 2px dashed #ddd;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .upload-section.highlight {
+            border-color: var(--secondary-color);
+            background: #f0f8ff;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .compression-level {
+            width: 200px;
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .preview-box {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            min-height: 300px;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            max-height: 200px;
+            margin: 1rem 0;
+        }
+
+        button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .preview-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Image Compressor Pro</h1>
+        <p>Optimize your images for web with adjustable compression levels</p>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+            <section class="upload-section" id="uploadSection">
+                <input type="file" id="imageInput" accept="image/*" hidden>
+                <button onclick="document.getElementById('imageInput').click()">
+                    Choose Image or Drag & Drop
+                </button>
+                <p id="fileName" class="file-name"></p>
+                <div id="errorMessage" class="error-message"></div>
+
+                <div class="controls">
+                    <label for="compressionLevel">Compression Level:</label>
+                    <input type="range" id="compressionLevel" class="compression-level" 
+                           min="0" max="1" step="0.1" value="0.7">
+                    <span id="levelDisplay">70%</span>
+                </div>
+
+                <button id="compressBtn" onclick="compressImage()">Compress Now</button>
+            </section>
+
+            <div class="preview-container">
+                <div class="preview-box">
+                    <h3>Original Image</h3>
+                    <img id="originalPreview" class="preview-img" src="" alt="Original preview">
+                    <canvas id="originalCanvas" hidden></canvas>
+                    <div id="originalInfo"></div>
+                </div>
+
+                <div class="preview-box">
+                    <h3>Compressed Image</h3>
+                    <img id="compressedPreview" class="preview-img" src="" alt="Compressed preview">
+                    <canvas id="compressedCanvas" hidden></canvas>
+                    <div id="compressedInfo"></div>
+                    <button id="downloadBtn" hidden>Download</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Elements
+        const imageInput = document.getElementById('imageInput');
+        const compressionLevel = document.getElementById('compressionLevel');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const compressBtn = document.getElementById('compressBtn');
+        const uploadSection = document.getElementById('uploadSection');
+        const errorMessage = document.getElementById('errorMessage');
+        const originalPreview = document.getElementById('originalPreview');
+        const compressedPreview = document.getElementById('compressedPreview');
+
+        // Event Listeners
+        compressionLevel.addEventListener('input', updateCompressionLevel);
+        imageInput.addEventListener('change', handleFileSelect);
+        
+        // Drag and Drop Events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+            uploadSection.addEventListener(event, preventDefaults, false);
+        });
+        
+        ['dragenter', 'dragover'].forEach(event => {
+            uploadSection.addEventListener(event, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(event => {
+            uploadSection.addEventListener(event, unhighlight, false);
+        });
+        
+        uploadSection.addEventListener('drop', handleDrop, false);
+
+        // Functions
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight() {
+            uploadSection.classList.add('highlight');
+        }
+
+        function unhighlight() {
+            uploadSection.classList.remove('highlight');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length) {
+                imageInput.files = files;
+                handleFileSelect({ target: { files } });
+            }
+        }
+
+        function updateCompressionLevel(e) {
+            levelDisplay.textContent = `${Math.round(e.target.value * 100)}%`;
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                showError('Please select an image file (JPEG, PNG, etc.)');
+                return;
+            }
+            
+            document.getElementById('fileName').textContent = file.name;
+            loadImage(file);
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            setTimeout(() => errorMessage.textContent = '', 3000);
+        }
+
+        function loadImage(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.getElementById('originalCanvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    
+                    // Show preview
+                    originalPreview.src = e.target.result;
+                    
+                    document.getElementById('originalInfo').innerHTML = `
+                        Dimensions: ${img.width}x${img.height}<br>
+                        Size: ${formatBytes(file.size)}
+                    `;
+                    
+                    // Enable compress button
+                    compressBtn.disabled = false;
+                };
+                
+                img.src = e.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        function compressImage() {
+            const quality = parseFloat(compressionLevel.value);
+            const originalCanvas = document.getElementById('originalCanvas');
+            
+            if (!originalCanvas.width) {
+                showError('Please select an image first');
+                return;
+            }
+            
+            try {
+                const compressedDataUrl = originalCanvas.toDataURL('image/jpeg', quality);
+                const compressedBlob = dataURItoBlob(compressedDataUrl);
+                
+                // Show compressed preview
+                compressedPreview.src = compressedDataUrl;
+                
+                document.getElementById('compressedInfo').innerHTML = `
+                    New Size: ${formatBytes(compressedBlob.size)}<br>
+                    Reduction: ${calculateReduction(originalCanvas, compressedBlob.size)}%
+                `;
+
+                downloadBtn.hidden = false;
+                downloadBtn.onclick = function() {
+                    const link = document.createElement('a');
+                    link.download = `compressed-${Date.now()}.jpg`;
+                    link.href = compressedDataUrl;
+                    link.click();
+                };
+            } catch (error) {
+                showError('Error compressing image: ' + error.message);
+            }
+        }
+
+        function dataURItoBlob(dataURI) {
+            const byteString = atob(dataURI.split(',')[1]);
+            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            
+            return new Blob([ab], { type: mimeString });
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function calculateReduction(originalCanvas, compressedSize) {
+            const originalSize = originalCanvas.toDataURL().length * 0.75;
+            return ((1 - compressedSize / originalSize) * 100).toFixed(1);
+        }
+    </script>
+</body>
+</html>
