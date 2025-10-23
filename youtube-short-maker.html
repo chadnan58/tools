@@ -1,782 +1,409 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Toolkit Pro - Advanced AI Tools Platform</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --secondary: #1d4ed8;
-            --accent: #3b82f6;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --success: #10b981;
-            --card-bg: rgba(255, 255, 255, 0.95);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background: var(--light);
-            color: var(--dark);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        /* Header Styles */
-        header {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .logo-icon {
-            background: var(--gradient);
-            padding: 10px;
-            border-radius: 12px;
-            color: white;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: var(--gradient);
-            color: white;
-            padding: 120px 0 80px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
-        }
-
-        .hero-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.9;
-        }
-
-        .feature-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 50px;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-        }
-
-        /* Tools Section */
-        .tools-section {
-            padding: 80px 0;
-            background: var(--light);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .section-title p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .tool-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .tool-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .tool-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        .tool-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .tool-description {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .tool-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .tool-features li {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 0.5rem;
-            color: var(--gray);
-        }
-
-        .tool-features i {
-            color: var(--success);
-            font-size: 0.9rem;
-        }
-
-        /* AI Short Maker Special Card */
-        .ai-short-maker {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            grid-column: 1 / -1;
-        }
-
-        .ai-short-maker .tool-description,
-        .ai-short-maker .tool-features li {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .ai-short-maker .tool-title {
-            color: white;
-        }
-
-        .ai-short-maker .btn {
-            background: white;
-            color: var(--primary);
-        }
-
-        .ai-short-maker .btn:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 80px 0;
-            background: var(--light);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 60px 0 20px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tool-card {
-                padding: 1.5rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeInUp 0.6s ease-out;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shorts Maker — Local & Free</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:18px;color:#111}
+    h1{margin-bottom:6px}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .panel{border:1px solid #ddd;padding:12px;border-radius:8px;min-width:280px;flex:1}
+    label{display:block;margin:8px 0 4px;font-weight:600}
+    input[type=file]{padding:6px}
+    input[type=range]{width:100%}
+    button{padding:10px 14px;border-radius:8px;border:0;background:#0b76ff;color:#fff;cursor:pointer}
+    button.secondary{background:#666}
+    canvas{background:#000;display:block;margin:8px 0;max-width:100%}
+    #log{white-space:pre-wrap;font-family:monospace;margin-top:8px;background:#f8f8f8;padding:8px;border-radius:6px}
+    .small{font-size:13px;color:#555}
+    textarea{width:100%;min-height:80px}
+    .flex{display:flex;gap:8px;align-items:center}
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <span>AI Toolkit Pro</span>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">AI Tools</a></li>
-                    <li><a href="#">Templates</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">Documentation</a></li>
-                </ul>
-                <div class="auth-buttons">
-                    <a href="#" class="btn btn-outline">Sign In</a>
-                    <a href="#" class="btn btn-primary">Get Started</a>
-                </div>
-            </nav>
-        </div>
-    </header>
+  <h1>Shorts Maker — Local & Free</h1>
+  <div class="small">Upload a video, trim, center-crop to 9:16, add captions, then export a WebM short (video + original audio).</div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content fade-in">
-                <div class="feature-badge">
-                    <i class="fas fa-star"></i>
-                    <span>Trusted by 50,000+ creators worldwide</span>
-                </div>
-                <h1>Create Professional Content with AI</h1>
-                <p>Transform your ideas into engaging videos, images, and documents with our advanced AI tools. No technical skills required.</p>
-                <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary">
-                        <i class="fas fa-rocket"></i>
-                        Start Creating
-                    </a>
-                    <a href="#" class="btn btn-outline">
-                        <i class="fas fa-play-circle"></i>
-                        Watch Demo
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="row" style="margin-top:12px">
+    <div class="panel">
+      <label>1) Upload video (mp4, webm...)</label>
+      <input id="file" type="file" accept="video/*">
+      <div id="video-info" class="small" style="margin-top:8px"></div>
 
-    <!-- Tools Section -->
-    <section class="tools-section">
-        <div class="container">
-            <div class="section-title fade-in">
-                <h2>Powerful AI Tools</h2>
-                <p>Leverage cutting-edge artificial intelligence to create amazing content in minutes</p>
-            </div>
+      <label>2) Trim (seconds)</label>
+      <div class="flex">
+        <input id="startRange" type="range" min="0" max="1" step="0.01" value="0">
+        <div id="startLabel" class="small">start: 0.00s</div>
+      </div>
+      <div class="flex">
+        <input id="endRange" type="range" min="0" max="1" step="0.01" value="1">
+        <div id="endLabel" class="small">end: 0.00s</div>
+      </div>
 
-            <div class="tools-grid">
-                <!-- AI Short Maker - Featured Tool -->
-                <div class="tool-card ai-short-maker fade-in">
-                    <div class="tool-header">
-                        <div class="tool-icon">
-                            <i class="fas fa-film"></i>
-                        </div>
-                        <div>
-                            <h3 class="tool-title">AI Short Maker Pro</h3>
-                            <div class="feature-badge" style="background: rgba(255,255,255,0.2);">
-                                <i class="fas fa-crown"></i>
-                                <span>Most Popular</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="tool-description">
-                        Transform long videos into engaging short clips automatically. Our AI analyzes your content and creates viral-ready shorts with perfect timing, captions, and effects.
-                    </p>
-                    <ul class="tool-features">
-                        <li><i class="fas fa-check"></i> Automatic scene detection and highlighting</li>
-                        <li><i class="fas fa-check"></i> AI-powered caption generation</li>
-                        <li><i class="fas fa-check"></i> Background music synchronization</li>
-                        <li><i class="fas fa-check"></i> Multiple aspect ratios (9:16, 1:1, 4:5)</li>
-                        <li><i class="fas fa-check"></i> One-click export to all platforms</li>
-                    </ul>
-                    <div class="tool-actions">
-                        <a href="#" class="btn">
-                            <i class="fas fa-play"></i>
-                            Try AI Short Maker
-                        </a>
-                    </div>
-                </div>
+      <label>3) Captions / Overlay text</label>
+      <textarea id="captions" placeholder="Type the caption text that will be burned into the short (you can use multiple lines)."></textarea>
 
-                <!-- Other AI Tools -->
-                <div class="tool-card fade-in">
-                    <div class="tool-header">
-                        <div class="tool-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <h3 class="tool-title">AI Content Writer</h3>
-                    </div>
-                    <p class="tool-description">
-                        Generate high-quality articles, social media posts, and marketing copy in seconds with advanced GPT-4 technology.
-                    </p>
-                    <ul class="tool-features">
-                        <li><i class="fas fa-check"></i> 50+ content templates</li>
-                        <li><i class="fas fa-check"></i> SEO optimization</li>
-                        <li><i class="fas fa-check"></i> Multiple languages</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Use Tool</a>
-                </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="autoCropBtn">Auto Crop → 9:16 (preview)</button>
+        <button id="clearBtn" class="secondary">Clear</button>
+      </div>
+    </div>
 
-                <div class="tool-card fade-in">
-                    <div class="tool-header">
-                        <div class="tool-icon">
-                            <i class="fas fa-image"></i>
-                        </div>
-                        <h3 class="tool-title">AI Image Generator</h3>
-                    </div>
-                    <p class="tool-description">
-                        Create stunning images from text descriptions. Perfect for social media, blogs, and marketing materials.
-                    </p>
-                    <ul class="tool-features">
-                        <li><i class="fas fa-check"></i> Text-to-image generation</li>
-                        <li><i class="fas fa-check"></i> Style transfer</li>
-                        <li><i class="fas fa-check"></i> HD quality output</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Use Tool</a>
-                </div>
+    <div class="panel">
+      <label>Preview (canvas)</label>
+      <canvas id="previewCanvas" width="720" height="1280"></canvas>
 
-                <div class="tool-card fade-in">
-                    <div class="tool-header">
-                        <div class="tool-icon">
-                            <i class="fas fa-video"></i>
-                        </div>
-                        <h3 class="tool-title">AI Video Editor</h3>
-                    </div>
-                    <p class="tool-description">
-                        Automatically edit videos with AI. Remove silences, add transitions, and optimize pacing for engagement.
-                    </p>
-                    <ul class="tool-features">
-                        <li><i class="fas fa-check"></i> Auto-cut silent parts</li>
-                        <li><i class="fas fa-check"></i> Smart transitions</li>
-                        <li><i class="fas fa-check"></i> Audio enhancement</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Use Tool</a>
-                </div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+        <button id="renderBtn">Render & Export WebM</button>
+        <button id="pausePreview" class="secondary">Pause</button>
+        <div id="downloadLinkArea"></div>
+      </div>
 
-                <div class="tool-card fade-in">
-                    <div class="tool-header">
-                        <div class="tool-icon">
-                            <i class="fas fa-podcast"></i>
-                        </div>
-                        <h3 class="tool-title">AI Audio Studio</h3>
-                    </div>
-                    <p class="tool-description">
-                        Enhance audio quality, remove background noise, and generate voiceovers with realistic AI voices.
-                    </p>
-                    <ul class="tool-features">
-                        <li><i class="fas fa-check"></i> Noise cancellation</li>
-                        <li><i class="fas fa-check"></i> 100+ AI voices</li>
-                        <li><i class="fas fa-check"></i> Audio transcription</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Use Tool</a>
-                </div>
+      <div id="log"></div>
+    </div>
+  </div>
 
-                <div class="tool-card fade-in">
-                    <div class="tool-header">
-                        <div class="tool-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="tool-title">AI Analytics</h3>
-                    </div>
-                    <p class="tool-description">
-                        Get insights into your content performance and receive AI-powered recommendations for improvement.
-                    </p>
-                    <ul class="tool-features">
-                        <li><i class="fas fa-check"></i> Performance analytics</li>
-                        <li><i class="fas fa-check"></i> Content optimization tips</li>
-                        <li><i class="fas fa-check"></i> Competitor analysis</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Use Tool</a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- hidden video element used as source -->
+  <video id="sourceVideo" playsinline muted style="display:none"></video>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <div class="section-title fade-in">
-                <h2>Why Choose AI Toolkit Pro?</h2>
-                <p>Enterprise-grade AI tools designed for creators and businesses</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Enterprise Security</h3>
-                    <p>Bank-level security with end-to-end encryption and secure data processing.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Lightning Fast</h3>
-                    <p>Process videos and images in seconds with our optimized AI infrastructure.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-infinity"></i>
-                    </div>
-                    <h3>Unlimited Creativity</h3>
-                    <p>No watermarks, no usage limits. Create as much as you want.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<script>
+(async function(){
+  const fileInput = document.getElementById('file');
+  const video = document.getElementById('sourceVideo');
+  const info = document.getElementById('video-info');
+  const startRange = document.getElementById('startRange');
+  const endRange = document.getElementById('endRange');
+  const startLabel = document.getElementById('startLabel');
+  const endLabel = document.getElementById('endLabel');
+  const previewCanvas = document.getElementById('previewCanvas');
+  const ctx = previewCanvas.getContext('2d');
+  const autoCropBtn = document.getElementById('autoCropBtn');
+  const renderBtn = document.getElementById('renderBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const captionsInput = document.getElementById('captions');
+  const logEl = document.getElementById('log');
+  const pauseBtn = document.getElementById('pausePreview');
+  const downloadArea = document.getElementById('downloadLinkArea');
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>AI Toolkit Pro</h3>
-                    <p>Advanced AI tools for modern creators. Transform your content creation workflow with artificial intelligence.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h3>Products</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">AI Short Maker</a></li>
-                        <li><a href="#">Content Writer</a></li>
-                        <li><a href="#">Image Generator</a></li>
-                        <li><a href="#">Video Editor</a></li>
-                        <li><a href="#">Audio Studio</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Company</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Legal</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                        <li><a href="#">GDPR</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2024 AI Toolkit Pro. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+  let fileURL = null;
+  let videoReady = false;
+  let naturalWidth=0, naturalHeight=0;
+  let playing = false;
+  let autoCrop = true;
 
-    <script>
-        // Add scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+  function log(...args){ logEl.textContent = args.join(' ') }
+
+  fileInput.addEventListener('change', (e)=>{
+    if (fileURL) URL.revokeObjectURL(fileURL);
+    const f = e.target.files[0];
+    if (!f) return;
+    fileURL = URL.createObjectURL(f);
+    video.src = fileURL;
+    video.load();
+    videoReady = false;
+    info.textContent = `Loaded file: ${f.name} — size ${Math.round(f.size/1024)} KB`;
+    downloadArea.innerHTML = '';
+    log('Loading video...')
+  });
+
+  video.addEventListener('loadedmetadata', ()=>{
+    naturalWidth = video.videoWidth;
+    naturalHeight = video.videoHeight;
+    const dur = video.duration || 0.0;
+    startRange.min = 0; startRange.max = dur; startRange.value = 0;
+    endRange.min = 0; endRange.max = dur; endRange.value = dur;
+    startRange.step = 0.01; endRange.step = 0.01;
+    startLabel.textContent = `start: ${Number(startRange.value).toFixed(2)}s`;
+    endLabel.textContent = `end: ${Number(endRange.value).toFixed(2)}s`;
+    videoReady = true;
+    log(`Video ready — ${naturalWidth}x${naturalHeight}, ${dur.toFixed(2)}s`);
+  });
+
+  startRange.addEventListener('input', ()=> {
+    if (!videoReady) return;
+    const s = Math.min(Number(startRange.value), Number(endRange.value)-0.05);
+    startRange.value = s;
+    startLabel.textContent = `start: ${Number(s).toFixed(2)}s`;
+  });
+  endRange.addEventListener('input', ()=> {
+    if (!videoReady) return;
+    const e = Math.max(Number(endRange.value), Number(startRange.value)+0.05);
+    endRange.value = e;
+    endLabel.textContent = `end: ${Number(e).toFixed(2)}s`;
+  });
+
+  autoCropBtn.addEventListener('click', ()=>{
+    autoCrop = true;
+    if (!videoReady) { log('Load a video first'); return; }
+    // set canvas to portrait 9:16 but keep size reasonable
+    previewCanvas.width = 720;
+    previewCanvas.height = 1280;
+    log('Canvas set to 720x1280 (9:16). Click Render to export.');
+    // start preview playback
+    startPreview();
+  });
+
+  clearBtn.addEventListener('click', ()=>{
+    captionsInput.value = '';
+    downloadArea.innerHTML = '';
+    log('Cleared captions and previous output.');
+  });
+
+  pauseBtn.addEventListener('click', ()=>{
+    if (playing){ stopPreview(); pauseBtn.textContent = 'Resume'; }
+    else { startPreview(); pauseBtn.textContent = 'Pause'; }
+  });
+
+  function startPreview(){
+    if (!videoReady) { log('Load a video first'); return; }
+    // ensure canvas is 9:16
+    if (previewCanvas.width / previewCanvas.height !== 9/16){
+      previewCanvas.width = 720; previewCanvas.height = 1280;
+    }
+
+    video.currentTime = Number(startRange.value);
+    video.muted = true;
+    video.play().catch(()=>{});
+    playing = true;
+    requestAnimationFrame(drawLoop);
+  }
+
+  function stopPreview(){
+    video.pause();
+    playing = false;
+  }
+
+  function drawLoop(){
+    if (!playing) return;
+    const now = video.currentTime;
+    const end = Number(endRange.value);
+    if (now >= end){ video.pause(); playing = false; log('Preview ended'); return; }
+
+    // draw center-cropped to fit canvas (9:16)
+    const cw = previewCanvas.width, ch = previewCanvas.height;
+    // desired source crop size to preserve aspect ratio
+    const srcAR = video.videoWidth / video.videoHeight;
+    const dstAR = cw / ch;
+
+    let sx, sy, sw, sh;
+    if (srcAR > dstAR){
+      // source is wider => crop horizontally
+      sh = video.videoHeight;
+      sw = Math.round(sh * dstAR);
+      sx = Math.round((video.videoWidth - sw) / 2);
+      sy = 0;
+    } else {
+      // source is taller => crop vertically
+      sw = video.videoWidth;
+      sh = Math.round(sw / dstAR);
+      sx = 0;
+      sy = Math.round((video.videoHeight - sh) / 2);
+    }
+
+    // draw video frame cropped & scaled
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0,0,cw,ch);
+    try {
+      ctx.drawImage(video, sx, sy, sw, sh, 0, 0, cw, ch);
+    } catch (err) {
+      // drawImage may throw if video not ready yet
+    }
+
+    // captions overlay
+    const txt = captionsInput.value.trim();
+    if (txt){
+      const lines = txt.split('\n');
+      const fontSize = Math.floor(cw/12);
+      ctx.font = `bold ${fontSize}px system-ui, Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      // shadow/background
+      const padding = 12;
+      const textBlockHeight = lines.length * (fontSize + 6) + padding*2;
+      const blockY = ch - 40 - textBlockHeight;
+      // translucent background
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      const blockX = cw*0.05;
+      const blockW = cw*0.9;
+      ctx.fillRect(blockX, blockY, blockW, textBlockHeight);
+      ctx.fillStyle = 'white';
+      for (let i=0;i<lines.length;i++){
+        const line = lines[i];
+        const y = blockY + padding + (i+1)*(fontSize + 6) - 6;
+        ctx.fillText(line, cw/2, y);
+      }
+    }
+
+    requestAnimationFrame(drawLoop);
+  }
+
+  // Main render/export
+  renderBtn.addEventListener('click', async ()=>{
+    if (!videoReady){ log('Please load a video file first.'); return; }
+    renderBtn.disabled = true;
+    log('Preparing render — this happens fully in your browser (no upload).');
+    await doRender();
+    renderBtn.disabled = false;
+  });
+
+  async function doRender(){
+    // set canvas size 9:16 (use 720x1280 for speed)
+    const cw = previewCanvas.width || 720;
+    const ch = previewCanvas.height || 1280;
+    previewCanvas.width = cw; previewCanvas.height = ch;
+
+    // prepare drawing loop but controlled by playback
+    // Create streams:
+    // - canvasStream: the visual frames we draw
+    // - audioTrack: from video.captureStream() (original audio)
+    // We'll combine canvas video track + original audio track for recording
+
+    // Ensure video unmuted to include audio in captureStream (some browsers require)
+    video.muted = false;
+
+    // Seek to start
+    const start = Number(startRange.value);
+    const end = Number(endRange.value);
+    video.currentTime = start;
+
+    // Wait for seeked
+    await new Promise(res => {
+      const t = setTimeout(res, 150);
+      video.addEventListener('seeked', ()=>{
+        clearTimeout(t); res();
+      }, {once:true});
+    });
+
+    // Start video playback
+    await video.play().catch(()=>{});
+
+    // Setup canvas redraw tied to video frames
+    let rafId = null;
+    function drawFrame(){
+      // crop logic same as preview
+      const srcAR = video.videoWidth / video.videoHeight;
+      const dstAR = cw / ch;
+      let sx, sy, sw, sh;
+      if (srcAR > dstAR){
+        sh = video.videoHeight;
+        sw = Math.round(sh * dstAR);
+        sx = Math.round((video.videoWidth - sw) / 2);
+        sy = 0;
+      } else {
+        sw = video.videoWidth;
+        sh = Math.round(sw / dstAR);
+        sx = 0;
+        sy = Math.round((video.videoHeight - sh) / 2);
+      }
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0,0,cw,ch);
+      try { ctx.drawImage(video, sx, sy, sw, sh, 0, 0, cw, ch); } catch(e){}
+      // overlay captions
+      const txt = captionsInput.value.trim();
+      if (txt){
+        const lines = txt.split('\n');
+        const fontSize = Math.floor(cw/12);
+        ctx.font = `bold ${fontSize}px system-ui, Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        const padding = 12;
+        const textBlockHeight = lines.length * (fontSize + 6) + padding*2;
+        const blockY = ch - 40 - textBlockHeight;
+        ctx.fillStyle = 'rgba(0,0,0,0.45)';
+        const blockX = cw*0.05;
+        const blockW = cw*0.9;
+        ctx.fillRect(blockX, blockY, blockW, textBlockHeight);
+        ctx.fillStyle = 'white';
+        for (let i=0;i<lines.length;i++){
+          const line = lines[i];
+          const y = blockY + padding + (i+1)*(fontSize + 6) - 6;
+          ctx.fillText(line, cw/2, y);
+        }
+      }
+      // check end
+      if (video.currentTime >= end){
+        // stop drawing
+        cancelAnimationFrame(rafId);
+        return;
+      }
+      rafId = requestAnimationFrame(drawFrame);
+    }
+    rafId = requestAnimationFrame(drawFrame);
+
+    // Get streams
+    // Many browsers support HTMLMediaElement.captureStream() that includes audio track for media elements.
+    const videoStream = video.captureStream ? video.captureStream() : null;
+    if (!videoStream){
+      log('Error: your browser does not support captureStream(). Use latest Chrome/Edge.');
+      return;
+    }
+
+    // canvas stream (video only)
+    const canvasStream = previewCanvas.captureStream(30); // 30fps
+    const canvasVideoTrack = canvasStream.getVideoTracks()[0];
+    // get audio tracks from video stream (original audio)
+    const audioTracks = videoStream.getAudioTracks();
+    if (!audioTracks || audioTracks.length === 0){
+      log('Warning: source video has no audio track. Result will be silent.');
+    }
+
+    // combine
+    const combined = new MediaStream();
+    combined.addTrack(canvasVideoTrack);
+    audioTracks.forEach(t => combined.addTrack(t));
+
+    // MediaRecorder
+    let recordedChunks = [];
+    let mimeType = 'video/webm;codecs=vp8,opus';
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'video/webm';
+    }
+    const recorder = new MediaRecorder(combined, {mimeType});
+    recorder.ondataavailable = (ev)=>{ if (ev.data && ev.data.size) recordedChunks.push(ev.data); };
+    recorder.onstop = ()=>{
+      const blob = new Blob(recordedChunks, {type: mimeType});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `short_${Math.floor(Date.now()/1000)}.webm`;
+      a.textContent = 'Download short.webm';
+      a.style.display = 'inline-block';
+      a.style.padding = '8px';
+      a.style.background = '#0b76ff';
+      a.style.color = 'white';
+      a.style.borderRadius = '6px';
+      downloadArea.innerHTML = '';
+      downloadArea.appendChild(a);
+      log('Render complete — click download link.');
+      // stop video playback
+      video.pause();
+    };
+
+    // start recording
+    recordedChunks = [];
+    recorder.start(200); // gather every 200ms
+    log('Recording started...');
+    // play until end
+    function waitUntilEnd(){
+      return new Promise(resolve=>{
+        const onTime = ()=>{
+          if (video.currentTime >= end || video.ended){
+            video.removeEventListener('timeupdate', onTime);
+            resolve();
+          }
         };
+        video.addEventListener('timeupdate', onTime);
+      });
+    }
+    await waitUntilEnd();
+    // stop recorder after a small timeout to capture final frames
+    await new Promise(r=> setTimeout(r, 250));
+    recorder.stop();
+    // allow onstop to fire
+  }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all sections
-        document.querySelectorAll('.section-title, .tool-card, .feature-card').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-                header.style.boxShadow = 'none';
-            }
-        });
-    </script>
+})();
+</script>
 </body>
 </html>
