@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube to Short Maker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6cf7;
+            --primary-dark: #3a5ce5;
+            --secondary: #6c757d;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .hero {
+            padding: 40px 0;
+            background: linear-gradient(135deg, #f5f7ff 0%, #e6ecff 100%);
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .tool-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .tool-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .input-group textarea, 
+        .input-group input, 
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .input-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .preview-container {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px dashed #ddd;
+            border-radius: var(--border-radius);
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .preview-placeholder {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+        
+        .preview-content {
+            display: none;
+            width: 100%;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .preview-video {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .subtitles-display {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn-large {
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
+        
+        .loader {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span>🎬</span>
+                    <span>YouTube Short Maker</span>
+                </div>
+                <button class="btn btn-primary">Get Started</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Create Professional Shorts from YouTube Videos</h1>
+            <p>Paste YouTube URL and get perfect shorts in one click</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="tool-container">
+            <h2 class="tool-title">Create Your Short Video</h2>
+            
+            <div class="input-group">
+                <label for="youtube-url">YouTube Video URL</label>
+                <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+            </div>
+            
+            <div class="input-group">
+                <label for="content-input">Your Content (One Paragraph)</label>
+                <textarea id="content-input" placeholder="Enter your content here... (This will be used for subtitles)"></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="subtitle-file">Upload Subtitles (.srt file) - Optional</label>
+                <input type="file" id="subtitle-file" accept=".srt">
+            </div>
+            
+            <div class="preview-container">
+                <div class="preview-placeholder" id="preview-placeholder">
+                    Your short video preview will appear here
+                </div>
+                <div class="preview-content" id="preview-content">
+                    <div class="video-wrapper">
+                        <video class="preview-video" controls id="preview-video">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="subtitles-display" id="subtitles-display"></div>
+                    </div>
+                </div>
+                <div class="loader" id="loader"></div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary btn-large" id="create-btn">Create Short</button>
+                <button class="btn btn-success btn-large" id="download-btn" disabled>Download Short</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 YouTube Short Maker. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Elements
+        const createBtn = document.getElementById('create-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const youtubeUrlInput = document.getElementById('youtube-url');
+        const contentInput = document.getElementById('content-input');
+        const subtitleFileInput = document.getElementById('subtitle-file');
+        const previewPlaceholder = document.getElementById('preview-placeholder');
+        const previewContent = document.getElementById('preview-content');
+        const previewVideo = document.getElementById('preview-video');
+        const subtitlesDisplay = document.getElementById('subtitles-display');
+        const loader = document.getElementById('loader');
+
+        // Sample videos for demo (in real app, you'd use YouTube API)
+        const sampleVideos = {
+            'demo1': 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
+            'demo2': 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4'
+        };
+
+        // Create Short Video
+        createBtn.addEventListener('click', function() {
+            const youtubeUrl = youtubeUrlInput.value.trim();
+            const content = contentInput.value.trim();
+            
+            if (!youtubeUrl) {
+                alert('Please enter a YouTube URL');
+                return;
+            }
+            
+            if (!content) {
+                alert('Please enter your content');
+                return;
+            }
+            
+            // Show loading
+            loader.style.display = 'block';
+            previewPlaceholder.style.display = 'none';
+            previewContent.style.display = 'none';
+            createBtn.disabled = true;
+            
+            // Simulate processing
+            setTimeout(() => {
+                // For demo, use sample video
+                // In real app, you'd extract video from YouTube URL
+                const videoKey = youtubeUrl.includes('demo2') ? 'demo2' : 'demo1';
+                previewVideo.src = sampleVideos[videoKey];
+                
+                // Generate subtitles from content
+                generateSubtitlesFromContent(content);
+                
+                // Load uploaded subtitles if any
+                if (subtitleFileInput.files.length > 0) {
+                    loadSubtitlesFromFile(subtitleFileInput.files[0]);
+                }
+                
+                // Show preview
+                loader.style.display = 'none';
+                previewContent.style.display = 'block';
+                downloadBtn.disabled = false;
+                createBtn.disabled = false;
+                
+                alert('Short video created successfully!');
+            }, 2000);
+        });
+
+        // Generate subtitles from content
+        function generateSubtitlesFromContent(content) {
+            const words = content.split(' ');
+            let currentSubtitle = '';
+            let subtitleIndex = 0;
+            
+            // Clear previous subtitles
+            previewVideo.textTracks && Array.from(previewVideo.textTracks).forEach(track => {
+                track.mode = 'disabled';
+            });
+            
+            // Create simple subtitles by splitting content
+            words.forEach((word, index) => {
+                currentSubtitle += word + ' ';
+                
+                // Add subtitle at intervals
+                if ((index + 1) % 8 === 0 || index === words.length - 1) {
+                    const startTime = subtitleIndex * 3;
+                    const endTime = startTime + 2.5;
+                    
+                    // For demo, we'll just display in the custom subtitle area
+                    setTimeout(() => {
+                        subtitlesDisplay.textContent = currentSubtitle.trim();
+                        
+                        // Clear after 2.5 seconds
+                        setTimeout(() => {
+                            if (subtitlesDisplay.textContent === currentSubtitle.trim()) {
+                                subtitlesDisplay.textContent = '';
+                            }
+                        }, 2500);
+                    }, startTime * 1000);
+                    
+                    currentSubtitle = '';
+                    subtitleIndex++;
+                }
+            });
+        }
+
+        // Load subtitles from .srt file
+        function loadSubtitlesFromFile(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const srtContent = e.target.result;
+                parseSRTFile(srtContent);
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // Parse .srt file content
+        function parseSRTFile(srtContent) {
+            const subtitles = [];
+            const blocks = srtContent.split('\n\n');
+            
+            blocks.forEach(block => {
+                const lines = block.split('\n');
+                if (lines.length >= 3) {
+                    const timecode = lines[1];
+                    const text = lines.slice(2).join('\n');
+                    
+                    const times = timecode.split(' --> ');
+                    if (times.length === 2) {
+                        const startTime = parseTime(times[0]);
+                        const endTime = parseTime(times[1]);
+                        
+                        subtitles.push({
+                            start: startTime,
+                            end: endTime,
+                            text: text
+                        });
+                    }
+                }
+            });
+            
+            // Display subtitles
+            displaySubtitles(subtitles);
+        }
+
+        // Parse time from SRT format (HH:MM:SS,mmm)
+        function parseTime(timeString) {
+            const parts = timeString.split(':');
+            const lastPart = parts[2].split(',');
+            
+            const hours = parseInt(parts[0]);
+            const minutes = parseInt(parts[1]);
+            const seconds = parseInt(lastPart[0]);
+            const milliseconds = parseInt(lastPart[1]);
+            
+            return hours * 3600 + minutes * 60 + seconds + milliseconds / 1000;
+        }
+
+        // Display subtitles synchronized with video
+        function displaySubtitles(subtitles) {
+            previewVideo.addEventListener('timeupdate', function() {
+                const currentTime = previewVideo.currentTime;
+                const currentSubtitle = subtitles.find(sub => 
+                    currentTime >= sub.start && currentTime <= sub.end
+                );
+                
+                if (currentSubtitle) {
+                    subtitlesDisplay.textContent = currentSubtitle.text;
+                } else {
+                    subtitlesDisplay.textContent = '';
+                }
+            });
+        }
+
+        // Download functionality
+        downloadBtn.addEventListener('click', function() {
+            if (previewVideo.src) {
+                // Create download link
+                const a = document.createElement('a');
+                a.href = previewVideo.src;
+                a.download = 'youtube-short.mp4';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                alert('Short video download started!');
+            }
+        });
+
+        // Demo YouTube URLs
+        youtubeUrlInput.placeholder = "Try: https://youtube.com/watch?v=demo1 or https://youtube.com/watch?v=demo2";
+    </script>
+</body>
+</html>
