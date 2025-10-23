@@ -3,489 +3,780 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube to Short Maker</title>
+    <title>AI Toolkit Pro - Advanced AI Tools Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1d4ed8;
+            --accent: #3b82f6;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        
-        :root {
-            --primary: #4a6cf7;
-            --primary-dark: #3a5ce5;
-            --secondary: #6c757d;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #28a745;
-            --danger: #dc3545;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
+
         body {
-            background-color: #f5f7ff;
+            background: var(--light);
             color: var(--dark);
-            line-height: 1.6;
+            line-height: 1.7;
+            overflow-x: hidden;
         }
-        
-        .container {
+
+        /* Header Styles */
+        header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
             width: 100%;
-            max-width: 1000px;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
-        header {
-            background-color: white;
-            box-shadow: var(--box-shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
+
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 1rem 0;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 1.5rem;
             font-weight: 700;
+            color: var(--dark);
+        }
+
+        .logo-icon {
+            background: var(--gradient);
+            padding: 10px;
+            border-radius: 12px;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
             color: var(--primary);
         }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: var(--border-radius);
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease;
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
         }
-        
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .btn-primary {
             background: var(--primary);
             color: white;
         }
-        
+
         .btn-primary:hover {
-            background: var(--primary-dark);
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
         }
-        
-        .btn-success {
-            background-color: var(--success);
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
             color: white;
         }
-        
+
+        /* Hero Section */
         .hero {
-            padding: 40px 0;
-            background: linear-gradient(135deg, #f5f7ff 0%, #e6ecff 100%);
-            text-align: center;
+            background: var(--gradient);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
         .hero h1 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
         }
-        
-        .tool-container {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 30px;
-            margin: 30px 0;
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
         }
-        
-        .tool-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--dark);
+
+        .feature-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
         }
-        
-        .input-group {
-            margin-bottom: 20px;
+
+        /* Tools Section */
+        .tools-section {
+            padding: 80px 0;
+            background: var(--light);
         }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .input-group textarea, 
-        .input-group input, 
-        .input-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-        }
-        
-        .input-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .preview-container {
-            margin: 30px 0;
-            padding: 20px;
-            border: 1px dashed #ddd;
-            border-radius: var(--border-radius);
+
+        .section-title {
             text-align: center;
-            min-height: 300px;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-        }
-        
-        .preview-placeholder {
-            color: var(--secondary);
-            font-size: 1rem;
-        }
-        
-        .preview-content {
-            display: none;
-            width: 100%;
-        }
-        
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        .preview-video {
-            width: 100%;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-        
-        .subtitles-display {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
             color: white;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
-            font-size: 16px;
+            font-size: 1.5rem;
         }
-        
-        .action-buttons {
+
+        .tool-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .tool-description {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .tool-features li {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
         }
-        
-        .btn-large {
-            padding: 12px 24px;
-            font-size: 1rem;
+
+        .tool-features i {
+            color: var(--success);
+            font-size: 0.9rem;
         }
-        
-        .loader {
-            display: none;
+
+        /* AI Short Maker Special Card */
+        .ai-short-maker {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .ai-short-maker .tool-description,
+        .ai-short-maker .tool-features li {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .ai-short-maker .tool-title {
+            color: white;
+        }
+
+        .ai-short-maker .btn {
+            background: white;
+            color: var(--primary);
+        }
+
+        .ai-short-maker .btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: var(--light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
             width: 40px;
             height: 40px;
-            margin: 20px auto;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        footer {
-            background-color: var(--dark);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            padding: 30px 0;
-            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
-        
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
+            .nav-links {
+                display: none;
             }
-            
-            .action-buttons {
-                flex-direction: column;
+
+            .hero h1 {
+                font-size: 2.5rem;
             }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
         <div class="container">
-            <div class="header-content">
+            <nav class="navbar">
                 <div class="logo">
-                    <span>🎬</span>
-                    <span>YouTube Short Maker</span>
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <span>AI Toolkit Pro</span>
                 </div>
-                <button class="btn btn-primary">Get Started</button>
-            </div>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">AI Tools</a></li>
+                    <li><a href="#">Templates</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Documentation</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline">Sign In</a>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+            </nav>
         </div>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Create Professional Shorts from YouTube Videos</h1>
-            <p>Paste YouTube URL and get perfect shorts in one click</p>
+            <div class="hero-content fade-in">
+                <div class="feature-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Trusted by 50,000+ creators worldwide</span>
+                </div>
+                <h1>Create Professional Content with AI</h1>
+                <p>Transform your ideas into engaging videos, images, and documents with our advanced AI tools. No technical skills required.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Start Creating
+                    </a>
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-play-circle"></i>
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <div class="container">
-        <div class="tool-container">
-            <h2 class="tool-title">Create Your Short Video</h2>
-            
-            <div class="input-group">
-                <label for="youtube-url">YouTube Video URL</label>
-                <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+    <!-- Tools Section -->
+    <section class="tools-section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Powerful AI Tools</h2>
+                <p>Leverage cutting-edge artificial intelligence to create amazing content in minutes</p>
             </div>
-            
-            <div class="input-group">
-                <label for="content-input">Your Content (One Paragraph)</label>
-                <textarea id="content-input" placeholder="Enter your content here... (This will be used for subtitles)"></textarea>
-            </div>
-            
-            <div class="input-group">
-                <label for="subtitle-file">Upload Subtitles (.srt file) - Optional</label>
-                <input type="file" id="subtitle-file" accept=".srt">
-            </div>
-            
-            <div class="preview-container">
-                <div class="preview-placeholder" id="preview-placeholder">
-                    Your short video preview will appear here
-                </div>
-                <div class="preview-content" id="preview-content">
-                    <div class="video-wrapper">
-                        <video class="preview-video" controls id="preview-video">
-                            Your browser does not support the video tag.
-                        </video>
-                        <div class="subtitles-display" id="subtitles-display"></div>
+
+            <div class="tools-grid">
+                <!-- AI Short Maker - Featured Tool -->
+                <div class="tool-card ai-short-maker fade-in">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <div>
+                            <h3 class="tool-title">AI Short Maker Pro</h3>
+                            <div class="feature-badge" style="background: rgba(255,255,255,0.2);">
+                                <i class="fas fa-crown"></i>
+                                <span>Most Popular</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="tool-description">
+                        Transform long videos into engaging short clips automatically. Our AI analyzes your content and creates viral-ready shorts with perfect timing, captions, and effects.
+                    </p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Automatic scene detection and highlighting</li>
+                        <li><i class="fas fa-check"></i> AI-powered caption generation</li>
+                        <li><i class="fas fa-check"></i> Background music synchronization</li>
+                        <li><i class="fas fa-check"></i> Multiple aspect ratios (9:16, 1:1, 4:5)</li>
+                        <li><i class="fas fa-check"></i> One-click export to all platforms</li>
+                    </ul>
+                    <div class="tool-actions">
+                        <a href="#" class="btn">
+                            <i class="fas fa-play"></i>
+                            Try AI Short Maker
+                        </a>
                     </div>
                 </div>
-                <div class="loader" id="loader"></div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="btn btn-primary btn-large" id="create-btn">Create Short</button>
-                <button class="btn btn-success btn-large" id="download-btn" disabled>Download Short</button>
+
+                <!-- Other AI Tools -->
+                <div class="tool-card fade-in">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="tool-title">AI Content Writer</h3>
+                    </div>
+                    <p class="tool-description">
+                        Generate high-quality articles, social media posts, and marketing copy in seconds with advanced GPT-4 technology.
+                    </p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> 50+ content templates</li>
+                        <li><i class="fas fa-check"></i> SEO optimization</li>
+                        <li><i class="fas fa-check"></i> Multiple languages</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Use Tool</a>
+                </div>
+
+                <div class="tool-card fade-in">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <h3 class="tool-title">AI Image Generator</h3>
+                    </div>
+                    <p class="tool-description">
+                        Create stunning images from text descriptions. Perfect for social media, blogs, and marketing materials.
+                    </p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Text-to-image generation</li>
+                        <li><i class="fas fa-check"></i> Style transfer</li>
+                        <li><i class="fas fa-check"></i> HD quality output</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Use Tool</a>
+                </div>
+
+                <div class="tool-card fade-in">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="tool-title">AI Video Editor</h3>
+                    </div>
+                    <p class="tool-description">
+                        Automatically edit videos with AI. Remove silences, add transitions, and optimize pacing for engagement.
+                    </p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Auto-cut silent parts</li>
+                        <li><i class="fas fa-check"></i> Smart transitions</li>
+                        <li><i class="fas fa-check"></i> Audio enhancement</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Use Tool</a>
+                </div>
+
+                <div class="tool-card fade-in">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-podcast"></i>
+                        </div>
+                        <h3 class="tool-title">AI Audio Studio</h3>
+                    </div>
+                    <p class="tool-description">
+                        Enhance audio quality, remove background noise, and generate voiceovers with realistic AI voices.
+                    </p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Noise cancellation</li>
+                        <li><i class="fas fa-check"></i> 100+ AI voices</li>
+                        <li><i class="fas fa-check"></i> Audio transcription</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Use Tool</a>
+                </div>
+
+                <div class="tool-card fade-in">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="tool-title">AI Analytics</h3>
+                    </div>
+                    <p class="tool-description">
+                        Get insights into your content performance and receive AI-powered recommendations for improvement.
+                    </p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Performance analytics</li>
+                        <li><i class="fas fa-check"></i> Content optimization tips</li>
+                        <li><i class="fas fa-check"></i> Competitor analysis</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Use Tool</a>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Why Choose AI Toolkit Pro?</h2>
+                <p>Enterprise-grade AI tools designed for creators and businesses</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Enterprise Security</h3>
+                    <p>Bank-level security with end-to-end encryption and secure data processing.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Process videos and images in seconds with our optimized AI infrastructure.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>Unlimited Creativity</h3>
+                    <p>No watermarks, no usage limits. Create as much as you want.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2023 YouTube Short Maker. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>AI Toolkit Pro</h3>
+                    <p>Advanced AI tools for modern creators. Transform your content creation workflow with artificial intelligence.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Products</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">AI Short Maker</a></li>
+                        <li><a href="#">Content Writer</a></li>
+                        <li><a href="#">Image Generator</a></li>
+                        <li><a href="#">Video Editor</a></li>
+                        <li><a href="#">Audio Studio</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 AI Toolkit Pro. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Elements
-        const createBtn = document.getElementById('create-btn');
-        const downloadBtn = document.getElementById('download-btn');
-        const youtubeUrlInput = document.getElementById('youtube-url');
-        const contentInput = document.getElementById('content-input');
-        const subtitleFileInput = document.getElementById('subtitle-file');
-        const previewPlaceholder = document.getElementById('preview-placeholder');
-        const previewContent = document.getElementById('preview-content');
-        const previewVideo = document.getElementById('preview-video');
-        const subtitlesDisplay = document.getElementById('subtitles-display');
-        const loader = document.getElementById('loader');
-
-        // Sample videos for demo (in real app, you'd use YouTube API)
-        const sampleVideos = {
-            'demo1': 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
-            'demo2': 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4'
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         };
 
-        // Create Short Video
-        createBtn.addEventListener('click', function() {
-            const youtubeUrl = youtubeUrlInput.value.trim();
-            const content = contentInput.value.trim();
-            
-            if (!youtubeUrl) {
-                alert('Please enter a YouTube URL');
-                return;
-            }
-            
-            if (!content) {
-                alert('Please enter your content');
-                return;
-            }
-            
-            // Show loading
-            loader.style.display = 'block';
-            previewPlaceholder.style.display = 'none';
-            previewContent.style.display = 'none';
-            createBtn.disabled = true;
-            
-            // Simulate processing
-            setTimeout(() => {
-                // For demo, use sample video
-                // In real app, you'd extract video from YouTube URL
-                const videoKey = youtubeUrl.includes('demo2') ? 'demo2' : 'demo1';
-                previewVideo.src = sampleVideos[videoKey];
-                
-                // Generate subtitles from content
-                generateSubtitlesFromContent(content);
-                
-                // Load uploaded subtitles if any
-                if (subtitleFileInput.files.length > 0) {
-                    loadSubtitlesFromFile(subtitleFileInput.files[0]);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
                 }
-                
-                // Show preview
-                loader.style.display = 'none';
-                previewContent.style.display = 'block';
-                downloadBtn.disabled = false;
-                createBtn.disabled = false;
-                
-                alert('Short video created successfully!');
-            }, 2000);
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section-title, .tool-card, .feature-card').forEach(el => {
+            observer.observe(el);
         });
 
-        // Generate subtitles from content
-        function generateSubtitlesFromContent(content) {
-            const words = content.split(' ');
-            let currentSubtitle = '';
-            let subtitleIndex = 0;
-            
-            // Clear previous subtitles
-            previewVideo.textTracks && Array.from(previewVideo.textTracks).forEach(track => {
-                track.mode = 'disabled';
-            });
-            
-            // Create simple subtitles by splitting content
-            words.forEach((word, index) => {
-                currentSubtitle += word + ' ';
-                
-                // Add subtitle at intervals
-                if ((index + 1) % 8 === 0 || index === words.length - 1) {
-                    const startTime = subtitleIndex * 3;
-                    const endTime = startTime + 2.5;
-                    
-                    // For demo, we'll just display in the custom subtitle area
-                    setTimeout(() => {
-                        subtitlesDisplay.textContent = currentSubtitle.trim();
-                        
-                        // Clear after 2.5 seconds
-                        setTimeout(() => {
-                            if (subtitlesDisplay.textContent === currentSubtitle.trim()) {
-                                subtitlesDisplay.textContent = '';
-                            }
-                        }, 2500);
-                    }, startTime * 1000);
-                    
-                    currentSubtitle = '';
-                    subtitleIndex++;
-                }
-            });
-        }
-
-        // Load subtitles from .srt file
-        function loadSubtitlesFromFile(file) {
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                const srtContent = e.target.result;
-                parseSRTFile(srtContent);
-            };
-            
-            reader.readAsText(file);
-        }
-
-        // Parse .srt file content
-        function parseSRTFile(srtContent) {
-            const subtitles = [];
-            const blocks = srtContent.split('\n\n');
-            
-            blocks.forEach(block => {
-                const lines = block.split('\n');
-                if (lines.length >= 3) {
-                    const timecode = lines[1];
-                    const text = lines.slice(2).join('\n');
-                    
-                    const times = timecode.split(' --> ');
-                    if (times.length === 2) {
-                        const startTime = parseTime(times[0]);
-                        const endTime = parseTime(times[1]);
-                        
-                        subtitles.push({
-                            start: startTime,
-                            end: endTime,
-                            text: text
-                        });
-                    }
-                }
-            });
-            
-            // Display subtitles
-            displaySubtitles(subtitles);
-        }
-
-        // Parse time from SRT format (HH:MM:SS,mmm)
-        function parseTime(timeString) {
-            const parts = timeString.split(':');
-            const lastPart = parts[2].split(',');
-            
-            const hours = parseInt(parts[0]);
-            const minutes = parseInt(parts[1]);
-            const seconds = parseInt(lastPart[0]);
-            const milliseconds = parseInt(lastPart[1]);
-            
-            return hours * 3600 + minutes * 60 + seconds + milliseconds / 1000;
-        }
-
-        // Display subtitles synchronized with video
-        function displaySubtitles(subtitles) {
-            previewVideo.addEventListener('timeupdate', function() {
-                const currentTime = previewVideo.currentTime;
-                const currentSubtitle = subtitles.find(sub => 
-                    currentTime >= sub.start && currentTime <= sub.end
-                );
-                
-                if (currentSubtitle) {
-                    subtitlesDisplay.textContent = currentSubtitle.text;
-                } else {
-                    subtitlesDisplay.textContent = '';
-                }
-            });
-        }
-
-        // Download functionality
-        downloadBtn.addEventListener('click', function() {
-            if (previewVideo.src) {
-                // Create download link
-                const a = document.createElement('a');
-                a.href = previewVideo.src;
-                a.download = 'youtube-short.mp4';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                
-                alert('Short video download started!');
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = 'none';
             }
         });
-
-        // Demo YouTube URLs
-        youtubeUrlInput.placeholder = "Try: https://youtube.com/watch?v=demo1 or https://youtube.com/watch?v=demo2";
     </script>
 </body>
 </html>
